@@ -1,0 +1,37 @@
+import { Button, VerticalBox } from "std-widgets.slint";
+import {NumberConverter} from "number_converter.slint";
+
+export global Conversion {
+    
+    pure callback convert_to_bin(string, string) -> string;
+    pure callback convert_to_oct(string, string) -> string;
+    pure callback convert_to_dec(string, string) -> string;
+    pure callback convert_to_hex(string, string) -> string;
+
+    pure callback to_valid_binary(string)       -> string;
+    pure callback to_valid_octal(string)        -> string;
+    pure callback to_valid_decimal(string)      -> string;
+    pure callback to_valid_hexadecimal(string)  -> string;
+}
+
+export component AppWindow inherits Window {
+    title: "Math Calc";
+    in-out property<int> counter: 42;
+
+    callback request-increase-value();
+    
+    converter := NumberConverter {
+        convert_to_bin(prefix, raw_string) => {
+            Conversion.convert_to_bin(prefix, raw_string);
+        }
+        convert_to_oct(prefix, raw_string) => {
+            Conversion.convert_to_oct(prefix, raw_string);
+        }
+        convert_to_dec(prefix, raw_string) => {
+            Conversion.convert_to_dec(prefix, raw_string);
+        }
+        convert_to_hex(prefix, raw_string) => {
+            Conversion.convert_to_hex(prefix, raw_string);
+        }
+    }
+}

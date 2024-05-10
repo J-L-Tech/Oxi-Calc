@@ -1,0 +1,107 @@
+import { VerticalBox, GridBox, TextEdit, LineEdit } from "std-widgets.slint";
+
+export component NumberConverter {
+
+    pure callback convert_to_bin(string, string) -> string;
+    pure callback convert_to_oct(string, string) -> string;
+    pure callback convert_to_dec(string, string) -> string;
+    pure callback convert_to_hex(string, string) -> string;
+
+    GridBox {
+        Row {
+            Text {
+                text: "Hexadecimal";
+                vertical-alignment: center;
+            }
+            hexadecimal := LineEdit {
+                text: "";
+                input-type: InputType.text;
+                edited => {
+                    if self.text == "" {
+                        decimal.text = "";
+                        octal.text = "";
+                        binary.text = "";
+                    }
+                    else {
+                        decimal.text        = convert_to_dec("0x", hexadecimal.text);
+                        octal.text          = convert_to_oct("0x", hexadecimal.text);
+                        binary.text         = convert_to_bin("0x", hexadecimal.text);
+                        hexadecimal.text    = convert_to_hex("0x", hexadecimal.text);
+                    }
+                }
+            }
+        }
+
+        Row {
+            Text {
+                text: "Decimal";
+                vertical-alignment: center;
+            }
+            decimal := LineEdit {
+                text: "";
+                input-type: InputType.number;
+                edited => {
+                    if self.text == "" {
+                        hexadecimal.text = "";
+                        octal.text = "";
+                        binary.text = "";
+                    }
+                    else {
+                        hexadecimal.text    = convert_to_hex("", decimal.text);
+                        octal.text          = convert_to_oct("", decimal.text);
+                        binary.text         = convert_to_bin("", decimal.text);
+                        decimal.text        = convert_to_dec("", decimal.text);
+                    }
+                }
+            }
+        }
+
+        Row {
+            Text {
+                text: "Octal";
+                vertical-alignment: center;
+            }
+            octal := LineEdit {
+                text: "";
+                input-type: InputType.number;
+                edited => {
+                    if self.text == "" {
+                        hexadecimal.text = "";
+                        decimal.text = "";
+                        binary.text = "";
+                    }
+                    else {
+                        hexadecimal.text    = convert_to_hex("0o", octal.text);
+                        decimal.text        = convert_to_dec("0o", octal.text);
+                        binary.text         = convert_to_bin("0o", octal.text);
+                        octal.text          = convert_to_oct("0o", octal.text);
+                    }
+                }
+            }
+        }
+
+        Row {
+            Text {
+                text: "Binary";
+                vertical-alignment: center;
+            }
+            binary := LineEdit {
+                text: "";
+                input-type: InputType.number;
+                edited => {
+                    if self.text == "" {
+                        hexadecimal.text = "";
+                        decimal.text = "";
+                        octal.text = "";
+                    }
+                    else {
+                        hexadecimal.text    = convert_to_hex("0b", binary.text);
+                        decimal.text        = convert_to_dec("0b", binary.text);
+                        octal.text          = convert_to_oct("0b", binary.text);
+                        binary.text         = convert_to_bin("0b", binary.text);
+                    }
+                }
+            }
+        }
+    }
+}
