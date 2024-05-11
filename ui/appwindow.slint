@@ -1,37 +1,37 @@
 import { Button, VerticalBox } from "std-widgets.slint";
 import {NumberConverter} from "number_converter.slint";
+import { UnitConverter } from "unit_converter.slint";
 
-export global Conversion {
-    
+export component AppWindow inherits Window {
+    title: "Math Calc";
+
     pure callback convert_to_bin(string, string) -> string;
     pure callback convert_to_oct(string, string) -> string;
     pure callback convert_to_dec(string, string) -> string;
     pure callback convert_to_hex(string, string) -> string;
 
-    pure callback to_valid_binary(string)       -> string;
-    pure callback to_valid_octal(string)        -> string;
-    pure callback to_valid_decimal(string)      -> string;
-    pure callback to_valid_hexadecimal(string)  -> string;
-}
+    pure callback convert_units(string, string, string) -> string;
 
-export component AppWindow inherits Window {
-    title: "Math Calc";
-    in-out property<int> counter: 42;
+    VerticalBox {
+        number_converter := NumberConverter {
+            convert_to_bin(prefix, raw_string) => {
+                root.convert_to_bin(prefix, raw_string);
+            }
+            convert_to_oct(prefix, raw_string) => {
+                root.convert_to_oct(prefix, raw_string);
+            }
+            convert_to_dec(prefix, raw_string) => {
+                root.convert_to_dec(prefix, raw_string);
+            }
+            convert_to_hex(prefix, raw_string) => {
+                root.convert_to_hex(prefix, raw_string);
+            }
+        }
 
-    callback request-increase-value();
-    
-    converter := NumberConverter {
-        convert_to_bin(prefix, raw_string) => {
-            Conversion.convert_to_bin(prefix, raw_string);
-        }
-        convert_to_oct(prefix, raw_string) => {
-            Conversion.convert_to_oct(prefix, raw_string);
-        }
-        convert_to_dec(prefix, raw_string) => {
-            Conversion.convert_to_dec(prefix, raw_string);
-        }
-        convert_to_hex(prefix, raw_string) => {
-            Conversion.convert_to_hex(prefix, raw_string);
+        unit_converter := UnitConverter {
+            convert_units(left_type, left_value, right_type) => {
+                root.convert_units(left_type, left_value, right_type);
+            }
         }
     }
 }

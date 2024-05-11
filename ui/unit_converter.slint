@@ -1,0 +1,84 @@
+import { VerticalBox, ComboBox, HorizontalBox, LineEdit, Button } from "std-widgets.slint";
+
+export component UnitConverter {
+    
+    pure callback convert_units(string, string, string) -> string;
+
+    private property<[string]> unit_types: ["Length", "Weight", "Time"];
+    private property<[string]> time_units: ["Miliseconds", "Seconds", "Minutes", "Hours", "Days", "Weeks", "Months"];
+    private property<[string]> length_units: ["Inches", "Feet", "Yards", "Miles", "mm", "cm", "dm", "m", "km"];
+    private property<[string]> weight_units: ["Ounces", "Pounds", "Tons", "mg", "g", "kg", "Metric Tons"];
+
+    private property <string> current_unit_type <=> unit-type_box.current_value;
+    private property <[string]> current_unit_values: length_units;
+
+    VerticalBox {
+        HorizontalBox {
+            unit_type_box := ComboBox {
+                model: unit-types;
+                selected(value) => {
+                    if (value ==  "Length") {
+                        current_unit_values = length_units;
+                        left_units_box.current-value = length_units[0];
+                        right_units_box.current-value = length_units[1];
+                        left_value.text = "";
+                        right_value.text = "";
+                    }
+                    if (value == "Weight") {
+                        current_unit_values = weight_units;
+                        left_units_box.current-value = weight_units[0];
+                        right_units_box.current-value = weight_units[1];
+                        left_value.text = "";
+                        right_value.text = "";
+                    }
+                    if ( value == "Time") {
+                        current_unit_values = time_units;
+                        left_units_box.current-value = time_units[0];
+                        right_units_box.current-value = time_units[1];
+                        left_value.text = "";
+                        right_value.text = "";
+                    }
+                }
+            }
+        }
+
+        HorizontalBox {
+            left_value := LineEdit {
+                input-type: decimal;
+                edited => {
+                    right_value.text = convert_units(left_units_box.current-value, left_value.text, right_units_box.current-value);
+                }
+            }
+
+            Text {
+                text: " <=> ";
+                vertical-alignment: center;
+            }
+
+            right_value := LineEdit {
+                input-type: decimal;
+                edited => {
+                    left_value.text = convert_units(right_units_box.current-value, right_value.text, left-units-box.current-value);
+                }
+            }
+        }
+
+        HorizontalBox {
+            left_units_box := ComboBox {
+                model: current_unit_values;
+                current-value: self.model[0];
+                selected(value) => {
+                    left_value.text = convert_units(right_units_box.current-value, right_value.text, left-units-box.current-value);
+                }
+            }
+
+            right_units_box := ComboBox {
+                model: current_unit_values;
+                current-value: self.model[1];
+                selected(value) => {
+                    right_value.text = convert_units(left_units_box.current-value, left_value.text, right_units_box.current-value);
+                }
+            }
+        }
+    }
+}
