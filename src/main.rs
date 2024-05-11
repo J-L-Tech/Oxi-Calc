@@ -1,3 +1,5 @@
+use std::fs;
+
 slint::include_modules!();
 
 #[derive(Copy, Clone, Debug)]
@@ -142,6 +144,20 @@ fn value_as_unit(left_type: &str, left_value: &str, right_type: &str) -> String 
     }
 }
 
+// Statistics
+
+fn data_from_csv() -> String {
+    let mut result: String = "".to_string();
+    use rfd::FileDialog;
+
+    if let Some(file) = FileDialog::new().add_filter("Data File", &["csv"]).pick_file() {
+        if let Ok(contents) = fs::read_to_string(file) {
+            result = contents;
+        }
+    }
+    return result
+}
+
 fn main() -> Result<(), slint::PlatformError> {
     let ui = AppWindow::new()?;
 
@@ -167,6 +183,12 @@ fn main() -> Result<(), slint::PlatformError> {
 
     ui.on_convert_units(|left_unit, left_value, right_unit | {
         return value_as_unit(left_unit.as_str(), left_value.as_str(), right_unit.as_str()).into();
+    });
+
+    // Stats Calc
+
+    ui.on_data_from_csv(|| {
+        return data_from_csv().into();
     });
 
     ui.run()

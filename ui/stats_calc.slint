@@ -1,0 +1,40 @@
+
+import { HorizontalBox, VerticalBox, TextEdit, ComboBox, Button, LineEdit } from "std-widgets.slint";
+
+export component StatsCalc {
+
+    pure callback data_from_csv() -> string;
+
+    HorizontalBox {
+        VerticalBox {
+            input_window := TextEdit {
+                min-height: 200px;
+            }
+            from_file_button := Button {
+                text: "From CSV";
+                clicked => {
+                    input-window.text = data_from_csv();
+                }
+            }
+        }
+
+        VerticalBox {
+            output_window := TextEdit {
+                read-only: true;
+                min-height: 200px;
+            }
+            stat_op_console := GridLayout {
+                Text {
+                    text: "Column";
+                    vertical-alignment: center;
+                }
+                column := LineEdit {
+                    input-type: number;
+                }
+                one_d_stats_button := Button {
+                    text: "1D Stats";
+                }
+            }
+        }
+    }
+}

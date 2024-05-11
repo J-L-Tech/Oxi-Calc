@@ -9,6 +9,7 @@ build = "build.rs"
 
 [dependencies]
 parse_int = "0.6.0"
+rfd = "0.14.1"
 slint = "1.5"
 
 [build-dependencies]

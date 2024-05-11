@@ -1,6 +1,7 @@
-import { Button, VerticalBox } from "std-widgets.slint";
-import {NumberConverter} from "number_converter.slint";
+import { Button, VerticalBox, TabWidget } from "std-widgets.slint";
+import { NumberConverter } from "number_converter.slint";
 import { UnitConverter } from "unit_converter.slint";
+import { StatsCalc } from "stats_calc.slint";
 
 export component AppWindow inherits Window {
     title: "Math Calc";
@@ -12,25 +13,41 @@ export component AppWindow inherits Window {
 
     pure callback convert_units(string, string, string) -> string;
 
-    VerticalBox {
-        number_converter := NumberConverter {
-            convert_to_bin(prefix, raw_string) => {
-                root.convert_to_bin(prefix, raw_string);
+    pure callback data_from_csv() -> string;
+    TabWidget {
+        Tab {
+            min-height: 300px;
+            title: "Number Converter";
+            number_converter := NumberConverter {
+                convert_to_bin(prefix, raw_string) => {
+                    root.convert_to_bin(prefix, raw_string);
+                }
+                convert_to_oct(prefix, raw_string) => {
+                    root.convert_to_oct(prefix, raw_string);
+                }
+                convert_to_dec(prefix, raw_string) => {
+                    root.convert_to_dec(prefix, raw_string);
+                }
+                convert_to_hex(prefix, raw_string) => {
+                    root.convert_to_hex(prefix, raw_string);
+                }
             }
-            convert_to_oct(prefix, raw_string) => {
-                root.convert_to_oct(prefix, raw_string);
-            }
-            convert_to_dec(prefix, raw_string) => {
-                root.convert_to_dec(prefix, raw_string);
-            }
-            convert_to_hex(prefix, raw_string) => {
-                root.convert_to_hex(prefix, raw_string);
+        }
+        Tab {
+            title: "Unit Converter";
+            unit_converter := UnitConverter {
+                convert_units(left_type, left_value, right_type) => {
+                    root.convert_units(left_type, left_value, right_type);
+                }
             }
         }
 
-        unit_converter := UnitConverter {
-            convert_units(left_type, left_value, right_type) => {
-                root.convert_units(left_type, left_value, right_type);
+        Tab {
+            title: "Statistics";
+            stats_calc := StatsCalc {
+                data_from_csv => {
+                    root.data_from_csv();
+                }
             }
         }
     }
