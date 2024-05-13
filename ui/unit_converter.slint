@@ -4,10 +4,12 @@ export component UnitConverter {
     
     pure callback convert_units(string, string, string) -> string;
 
-    private property<[string]> unit_types: ["Length", "Weight", "Time"];
+    private property<[string]> unit_types: ["Length", "Weight", "Time", "Temperature"];
     private property<[string]> time_units: ["Miliseconds", "Seconds", "Minutes", "Hours", "Days", "Weeks", "Months"];
     private property<[string]> length_units: ["Inches", "Feet", "Yards", "Miles", "mm", "cm", "dm", "m", "km"];
     private property<[string]> weight_units: ["Ounces", "Pounds", "Tons", "mg", "g", "kg", "Metric Tons"];
+    private property <[string]> temperature_units: ["Fahrenheit", "Celcius", "Kelvin"];
+
 
     private property <string> current_unit_type <=> unit-type_box.current_value;
     private property <[string]> current_unit_values: length_units;
@@ -18,25 +20,16 @@ export component UnitConverter {
                 model: unit-types;
                 selected(value) => {
                     if (value ==  "Length") {
-                        current_unit_values = length_units;
-                        left_units_box.current-value = length_units[0];
-                        right_units_box.current-value = length_units[1];
-                        left_value.text = "";
-                        right_value.text = "";
+                        set_unit_type(length_units);
                     }
                     if (value == "Weight") {
-                        current_unit_values = weight_units;
-                        left_units_box.current-value = weight_units[0];
-                        right_units_box.current-value = weight_units[1];
-                        left_value.text = "";
-                        right_value.text = "";
+                        set_unit_type(weight_units);
                     }
                     if ( value == "Time") {
-                        current_unit_values = time_units;
-                        left_units_box.current-value = time_units[0];
-                        right_units_box.current-value = time_units[1];
-                        left_value.text = "";
-                        right_value.text = "";
+                        set_unit_type(time_units);
+                    }
+                    if ( value == "Temperature") {
+                        set_unit_type(temperature_units);
                     }
                 }
             }
@@ -80,5 +73,12 @@ export component UnitConverter {
                 }
             }
         }
+    }
+    function set_unit_type(unit-list : [string]) {
+        current_unit_values = unit-list;
+        left_units_box.current-value = unit-list[0];
+        right_units_box.current-value = unit-list[1];
+        left_value.text = "";
+        right_value.text = "";
     }
 }

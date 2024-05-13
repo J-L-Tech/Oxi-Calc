@@ -116,6 +116,27 @@ fn from_grams_conversion_factor(right_type: &str) -> f64 {
     }
 }
 
+// Temperature
+
+fn to_celcius_conversion_factor(left_type: &str) -> f64 {
+    match left_type {
+        "Fahrenheit" =>  0.5555555555555555555555555,
+        "Celcius" =>     1.0,
+        "Kelvin" =>      1.0,
+        _ => f64::NAN
+    }
+}
+
+fn from_celcius_conversion_factor(right_type: &str) -> f64 {
+    match right_type {
+        "Fahrenheit" =>  1.8,
+        "Celcius" =>     1.0,
+        "Kelvin" =>      1.0,
+        _ => f64::NAN
+    }
+}
+
+
 // All
 
 fn conversion_factor(left_type: &str, right_type: &str) -> f64 {
@@ -130,14 +151,42 @@ fn conversion_factor(left_type: &str, right_type: &str) -> f64 {
                 to_meters_conversion_factor(left_type) * from_meters_conversion_factor(right_type),
             "Ounces" | "Pounds" | "Tons" | "mg" | "g" | "kg" | "Metric Tons" =>
                 to_grams_conversion_factor(left_type) * from_grams_conversion_factor(right_type),
+            "Fahrenheit" | "Celcius" | "Kelvin" =>
+                to_celcius_conversion_factor(left_type) * from_celcius_conversion_factor(right_type),
             _ => f64::NAN
         }
     }
 }
 
+fn pre_offset_by_types(left_type: &str, right_type: &str) -> f64 {
+    match (left_type, right_type) {
+        ("Celcius", "Fahrenheit") =>    0.0,
+        ("Celcius", "Kelvin") =>        0.0,
+        ("Fahrenheit", "Celcius") =>    -32.0,
+        ("Fahrenheit", "Kelvin") =>     -32.0,
+        ("Kelvin", "Celcius") =>        0.0,
+        ("Kelvin", "Fahrenheit") =>     -273.15,
+        _ =>                            0.0,
+    }
+}
+
+fn post_offset_by_types(left_type: &str, right_type: &str) -> f64 {
+    match (left_type, right_type) {
+        ("Celcius", "Fahrenheit") =>    32.0,
+        ("Celcius", "Kelvin") =>        273.15,
+        ("Fahrenheit", "Celcius") =>    0.0,
+        ("Fahrenheit", "Kelvin") =>     273.15,
+        ("Kelvin", "Celcius") =>        -273.15,
+        ("Kelvin", "Fahrenheit") =>     32.0,
+        _ =>                            0.0,
+    }
+}
+
 fn value_as_unit(left_type: &str, left_value: &str, right_type: &str) -> String {
     if let Ok(number) = parse_int::parse::<f64>(left_value) {
-        return format!("{}", number * conversion_factor(left_type, right_type));
+        return format!("{}", 
+            (number + pre_offset_by_types(left_type, right_type)) * conversion_factor(left_type, right_type) 
+                + post_offset_by_types(left_type, right_type));
     }
     else {
         return "".to_string();
