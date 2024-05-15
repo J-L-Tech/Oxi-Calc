@@ -46,13 +46,15 @@ pub fn one_dimensional_statistics(data: &mut Vec<f64>) -> Result<String, ErrorMe
     if data.contains(&f64::NAN) {
         return Err(ErrorMessage::new("Data Contains NaN"));
     }
-    data.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::Less));
+    data.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::Equal));
     let sum: f64 = data.into_iter().fold(0.0, |acc, x| acc + *x);
     let mean: f64 = sum / (data.len() as f64);
     let median: f64 = median(data)?;
     let mode: f64 = mode(data)?;
+    let max: f64 = *data.last().unwrap_or(&f64::NAN);
+    let min: f64 = *data.first().unwrap_or(&f64::NAN);
 
-    return Ok(format!("{}\n{}\n{}", mean, median, mode));
+    return Ok(format!("Mean: {}\nMedian: {}\nMode: {}\nMax: {}\nMin: {}", mean, median, mode, max, min));
 }
 
 /// Assumes sorted data

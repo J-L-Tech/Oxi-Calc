@@ -23,7 +23,6 @@ fn from_seconds_conversion_factor(right_type: &str) -> f64 {
         "Hours" =>          1.0 / 360.0,
         "Days" =>           1.0 / 86400.0,
         "Weeks" =>          1.0 / 604800.0,
-        "Months" =>         1.0 / 7257600.0,
         _ => f64::NAN
     }
 }
@@ -108,6 +107,73 @@ fn from_celcius_conversion_factor(right_type: &str) -> f64 {
     }
 }
 
+// Energy
+
+fn to_joules_conversion_factor(left_type: &str) -> f64 {
+    match left_type {
+        "Electron Volts"    => 1.602177e-19, 
+        "Joules"            => 1.0,
+        "Kilojoules"        => 1000.0,
+        "Thermal Calories"  => 4.184, 
+        "Food Calories"     => 4_184.0, 
+        "Foot Pounds"       => 1.355818, 
+        "Kilowatt-hours"    => 3_600_000.0,
+        _ => f64::NAN
+    }
+}
+
+fn from_joules_conversion_factor(right_type: &str) -> f64 {
+    match right_type {
+        "Electron Volts"    => 6.241509e+18, 
+        "Joules"            => 1.0,
+        "Kilojoules"        => 0.001,
+        "Thermal Calories"  => 0.239, 
+        "Food Calories"     => 0.000239, 
+        "Foot Pounds"       => 0.74, 
+        "Kilowatt-hours"    => 0.000000277777778,
+        _ => f64::NAN
+    }
+}
+
+// Volume
+
+fn to_liters_conversion_factor(left_type: &str) -> f64 {
+    match left_type {
+        "Mililiters"        => 0.001, 
+        "Liters"            => 1.0, 
+        "Cubic Centimeters" => 0.001,
+        "Cubic Meters"      => 1_000.0, 
+        "Teaspoons (US)"    => 0.004929, 
+        "Tablespoons (US)"  => 0.014787, 
+        "Fluid Ounces (US)" => 0.029574, 
+        "Cups (US)"         => 0.236588, 
+        "Pints (US)"        => 0.473176, 
+        "Quarts (US)"       => 0.946353,
+        "Gallons (US)"      => 3.785412, 
+        "Cubic Inches"      => 0.016387, 
+        "Cubic Feet"        => 28.31685,
+        _ => f64::NAN
+    }
+}
+
+fn from_liters_conversion_factor(right_type: &str) -> f64 {
+    match right_type {
+        "Mililiters"        => 1_000.0, 
+        "Liters"            => 1.0, 
+        "Cubic Centimeters" => 1_000.0,
+        "Cubic Meters"      => 0.001, 
+        "Teaspoons (US)"    => 202.8841, 
+        "Tablespoons (US)"  => 67.62805, 
+        "Fluid Ounces (US)" => 33.81402, 
+        "Cups (US)"         => 4.226753, 
+        "Pints (US)"        => 2.113376, 
+        "Quarts (US)"       => 1.056688,
+        "Gallons (US)"      => 0.264172, 
+        "Cubic Inches"      => 61.02374, 
+        "Cubic Feet"        => 0.035315,
+        _ => f64::NAN
+    }
+}
 
 // All
 
@@ -125,6 +191,10 @@ fn conversion_factor(left_type: &str, right_type: &str) -> f64 {
                 to_grams_conversion_factor(left_type) * from_grams_conversion_factor(right_type),
             "Fahrenheit" | "Celcius" | "Kelvin" =>
                 to_celcius_conversion_factor(left_type) * from_celcius_conversion_factor(right_type),
+            "Electron Volts" | "Joules" | "Kilojoules" | "Thermal Calories" | "Food Calories" | "Foot Pounds" | "Kilowatt-hours" =>
+                to_joules_conversion_factor(left_type) * from_joules_conversion_factor(right_type),
+            "Mililiters" | "Cubic Centimeters" | "Cubic Meters" | "Liters" | "Teaspoons (US)" | "Tablespoons (US)" | "Fluid Ounces (US)" | "Cups (US)" | "Pints (US)" | "Quarts (US)" | "Gallons (US)" | "Cubic Inches" | "Cubic Feet" =>
+                to_liters_conversion_factor(left_type) * from_liters_conversion_factor(right_type),
             _ => f64::NAN
         }
     }

@@ -5,6 +5,8 @@ import { StatsCalc } from "stats_calc.slint";
 
 export component AppWindow inherits Window {
     title: "Math Calc";
+    min-height: 700px;
+    min-width: 500px;
 
     pure callback convert_to_bin(string, string) -> string;
     pure callback convert_to_oct(string, string) -> string;
@@ -21,6 +23,8 @@ export component AppWindow inherits Window {
             min-height: 300px;
             title: "Number Converter";
             number_converter := NumberConverter {
+                width: 100%;
+                height: 100%;
                 convert_to_bin(prefix, raw_string) => {
                     root.convert_to_bin(prefix, raw_string);
                 }
@@ -37,7 +41,10 @@ export component AppWindow inherits Window {
         }
         Tab {
             title: "Unit Converter";
+           
             unit_converter := UnitConverter {
+                width: 100%;
+                height: 100%;
                 convert_units(left_type, left_value, right_type) => {
                     root.convert_units(left_type, left_value, right_type);
                 }
@@ -47,6 +54,8 @@ export component AppWindow inherits Window {
         Tab {
             title: "Statistics";
             stats_calc := StatsCalc {
+                width: 100%;
+                height: 100%;
                 data_from_csv => {
                     root.data_from_csv();
                 }

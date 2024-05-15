@@ -7,9 +7,13 @@ export component StatsCalc {
     pure callback one_dimensional_statistics(string) -> string;
 
     HorizontalBox {
+        width: 100%;
+        height: 100%;
         VerticalBox {
             input_window := TextEdit {
                 min-height: 200px;
+                min-width: 200px;
+                width: 45%;
             }
             from_file_button := Button {
                 text: "From CSV";
@@ -23,6 +27,8 @@ export component StatsCalc {
             output_window := TextEdit {
                 read-only: true;
                 min-height: 200px;
+                min-width: 200px;
+                width: 45%;
             }
             stat_op_console := GridLayout {
                 one_d_stats_button := Button {

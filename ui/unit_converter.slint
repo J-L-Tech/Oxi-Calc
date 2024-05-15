@@ -1,15 +1,15 @@
 import { VerticalBox, ComboBox, HorizontalBox, LineEdit, Button } from "std-widgets.slint";
 
 export component UnitConverter {
-    
     pure callback convert_units(string, string, string) -> string;
 
-    private property<[string]> unit_types: ["Length", "Weight", "Time", "Temperature"];
-    private property<[string]> time_units: ["Miliseconds", "Seconds", "Minutes", "Hours", "Days", "Weeks", "Months"];
+    private property<[string]> unit_types: ["Length", "Weight", "Time", "Temperature", "Energy", "Volume"];
+    private property<[string]> time_units: ["Miliseconds", "Seconds", "Minutes", "Hours", "Days", "Weeks"];
     private property<[string]> length_units: ["Inches", "Feet", "Yards", "Miles", "mm", "cm", "dm", "m", "km"];
     private property<[string]> weight_units: ["Ounces", "Pounds", "Tons", "mg", "g", "kg", "Metric Tons"];
     private property <[string]> temperature_units: ["Fahrenheit", "Celcius", "Kelvin"];
-
+    private property <[string]> energy_units: ["Electron Volts", "Joules", "Kilojoules", "Thermal Calories", "Food Calories", "Foot Pounds", "Kilowatt-hours"];
+    private property <[string]> volume_units: ["Mililiters", "Cubic Centimeters", "Cubic Meters", "Liters", "Teaspoons (US)", "Tablespoons (US)", "Fluid Ounces (US)", "Cups (US)", "Pints (US)", "Quarts (US)", "Gallons (US)", "Cubic Inches", "Cubic Feet"];
 
     private property <string> current_unit_type <=> unit-type_box.current_value;
     private property <[string]> current_unit_values: length_units;
@@ -30,6 +30,12 @@ export component UnitConverter {
                     }
                     if ( value == "Temperature") {
                         set_unit_type(temperature_units);
+                    }
+                    if ( value == "Energy") {
+                        set_unit_type(energy_units);
+                    }
+                    if ( value == "Volume") {
+                        set_unit_type(volume_units);
                     }
                 }
             }
@@ -72,6 +78,11 @@ export component UnitConverter {
                     right_value.text = convert_units(left_units_box.current-value, left_value.text, right_units_box.current-value);
                 }
             }
+        }
+
+        // This is dumb
+        Rectangle {
+            height: 95%;
         }
     }
     function set_unit_type(unit-list : [string]) {
