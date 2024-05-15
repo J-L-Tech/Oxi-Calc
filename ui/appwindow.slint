@@ -14,6 +14,8 @@ export component AppWindow inherits Window {
     pure callback convert_units(string, string, string) -> string;
 
     pure callback data_from_csv() -> string;
+    pure callback one_dimensional_statistics(string) -> string;
+
     TabWidget {
         Tab {
             min-height: 300px;
@@ -47,6 +49,10 @@ export component AppWindow inherits Window {
             stats_calc := StatsCalc {
                 data_from_csv => {
                     root.data_from_csv();
+                }
+
+                one_dimensional_statistics(column) => {
+                    root.one_dimensional_statistics(column);
                 }
             }
         }

@@ -4,6 +4,7 @@ import { HorizontalBox, VerticalBox, TextEdit, ComboBox, Button, LineEdit } from
 export component StatsCalc {
 
     pure callback data_from_csv() -> string;
+    pure callback one_dimensional_statistics(string) -> string;
 
     HorizontalBox {
         VerticalBox {
@@ -24,15 +25,11 @@ export component StatsCalc {
                 min-height: 200px;
             }
             stat_op_console := GridLayout {
-                Text {
-                    text: "Column";
-                    vertical-alignment: center;
-                }
-                column := LineEdit {
-                    input-type: number;
-                }
                 one_d_stats_button := Button {
                     text: "1D Stats";
+                    clicked => {
+                        output-window.text = one_dimensional_statistics(input-window.text);
+                    }
                 }
             }
         }
