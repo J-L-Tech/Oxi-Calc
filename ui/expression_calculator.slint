@@ -1,0 +1,61 @@
+
+import { LineEdit, TextEdit, HorizontalBox, VerticalBox, Button, Switch } from "std-widgets.slint";
+export component ExpressionCalculator {
+    pure callback clear_history();
+
+    private property <bool> history_hidden: false;
+
+    VerticalBox { 
+        HorizontalBox {
+            expression_text :=  LineEdit {
+                placeholder-text: "Type A Math Expression Here";
+            }
+            Text {
+                vertical-alignment: center;
+                text: "=";
+            }
+            answer_space := LineEdit {
+                read-only: true;
+            }
+            Button {
+                text: "✔";
+            }
+        }
+
+        VerticalBox {
+            HorizontalBox {
+                Text {
+                    text: "History";
+                    font-size: 24px;
+                }
+                Button {
+                    text: "Clear History";
+                    clicked => {
+                        clear_history();
+                        calc-history.text = "";
+                    }
+                }
+                Text {
+                    text: "Show History:";
+                    vertical-alignment: center;
+                }
+                Switch {
+                    checked: true;
+                    toggled => {
+                        history_hidden = !self.checked;
+                        if history_hidden {
+                            calc-history.min-height = 0;
+                        }
+                        else {
+                            calc-history.min-height = 100px;
+                        }
+                    }
+                }
+            }
+            calc_history := TextEdit {
+                min-height: 100px;
+                visible: !history_hidden;
+            }
+        }
+    }
+}

@@ -53,8 +53,25 @@ pub fn one_dimensional_statistics(data: &mut Vec<f64>) -> Result<String, ErrorMe
     let mode: f64 = mode(data)?;
     let max: f64 = *data.last().unwrap_or(&f64::NAN);
     let min: f64 = *data.first().unwrap_or(&f64::NAN);
+    let variance: f64 = data
+        .into_iter()
+        .map(|d| (*d - mean).powi(2))
+        .fold(0.0, |acc, d| acc + d) / (data.len() as f64 - 1.0);
+    let std_dev: f64 = variance.sqrt();
 
-    return Ok(format!("Mean: {}\nMedian: {}\nMode: {}\nMax: {}\nMin: {}", mean, median, mode, max, min));
+    return Ok(format!(
+        
+"Sum:           {}
+Element Count: {}
+Mean:          {}
+Median:        {}
+Mode:          {}
+Max:           {}
+Min:           {}
+Variance       {}
+Std Deviation: {}", 
+
+        sum, data.len(), mean, median, mode, max, min, variance, std_dev));
 }
 
 /// Assumes sorted data

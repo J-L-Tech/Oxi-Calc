@@ -676,6 +676,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "cbsk_base"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0fc6175db6cf45cdbfd5646b7de8874284736de3e022f7e2a66ef9376870997b"
+dependencies = [
+ "log",
+]
+
+[[package]]
 name = "cc"
 version = "1.0.97"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2230,6 +2239,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "jui"
+version = "0.1.24"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0c10ea2ba7bba456780b2fde32c33c4effec8ceb8ee5384baea8d8ba0dd8dfe5"
+dependencies = [
+ "jui_file",
+ "slint-build",
+]
+
+[[package]]
+name = "jui_file"
+version = "0.1.24"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "76e241f7ffd0fc7eb88108b2cd9b829115c7f7da7ae9e35f0ded3791d575986e"
+dependencies = [
+ "cbsk_base",
+]
+
+[[package]]
 name = "khronos_api"
 version = "3.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2434,6 +2462,7 @@ dependencies = [
 name = "math-calc"
 version = "0.1.0"
 dependencies = [
+ "jui",
  "parse_int",
  "rfd",
  "slint",

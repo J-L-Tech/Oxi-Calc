@@ -2,11 +2,15 @@ import { Button, VerticalBox, TabWidget } from "std-widgets.slint";
 import { NumberConverter } from "number_converter.slint";
 import { UnitConverter } from "unit_converter.slint";
 import { StatsCalc } from "stats_calc.slint";
+import { ExpressionCalculator } from "expression_calculator.slint";
 
+import "./resources/font/FiraCode-Medium.ttf";
 export component AppWindow inherits Window {
     title: "Math Calc";
     min-height: 700px;
-    min-width: 500px;
+    min-width: 700px;
+
+    default-font-family: "Fira Code";
 
     pure callback convert_to_bin(string, string) -> string;
     pure callback convert_to_oct(string, string) -> string;
@@ -20,8 +24,16 @@ export component AppWindow inherits Window {
 
     TabWidget {
         Tab {
-            min-height: 300px;
+            title: "Calculator";
+            ExpressionCalculator {
+                width: 100%;
+                height:100%;
+            }
+        }
+
+        Tab {
             title: "Number Converter";
+
             number_converter := NumberConverter {
                 width: 100%;
                 height: 100%;
@@ -39,6 +51,7 @@ export component AppWindow inherits Window {
                 }
             }
         }
+
         Tab {
             title: "Unit Converter";
            
@@ -65,5 +78,10 @@ export component AppWindow inherits Window {
                 }
             }
         }
+
+        Tab {
+            title: "Graphing TODO";
+        }
+
     }
 }
