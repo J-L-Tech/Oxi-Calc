@@ -1,13 +1,15 @@
 
 import { LineEdit, TextEdit, HorizontalBox, VerticalBox, Button, Switch } from "std-widgets.slint";
 export component ExpressionCalculator {
+    pure callback calculate_expression(string) -> string;
+    pure callback append_history(string, string, string) -> string;
     pure callback clear_history();
 
     private property <bool> history_hidden: false;
 
     VerticalBox { 
         HorizontalBox {
-            expression_text :=  LineEdit {
+            expression_space :=  LineEdit {
                 placeholder-text: "Type A Math Expression Here";
             }
             Text {
@@ -19,6 +21,10 @@ export component ExpressionCalculator {
             }
             Button {
                 text: "✔";
+                clicked => {
+                    answer-space.text = calculate_expression(expression-space.text);
+                    calc-history.text = append_history(calc-history.text, expression-space.text, answer-space.text);
+                }
             }
         }
 

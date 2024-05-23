@@ -1,13 +1,26 @@
-use crate::statistics_util::data_to_vector;
-
 slint::include_modules!();
 
 mod statistics_util;
 mod unit_conversion_util;
 mod number_conversion_util;
+mod expression_util;
 
 fn main() -> Result<(), slint::PlatformError> {
     let ui = AppWindow::new()?;
+
+    // Expression Calculator
+
+    use expression_util::calc_expr;
+
+    ui.on_evaluate_expression(|raw_string| {
+        return calc_expr(raw_string.as_str()).into();
+    }); 
+
+    ui.on_append_history(|previous_history, raw_expr, raw_ans| { 
+        let mut new_history = previous_history.to_string();
+        new_history.push_str(&format!("{} = {}\n", raw_expr, raw_ans));       
+        return new_history.into();
+    }); 
 
     // Number Conversion
     use number_conversion_util::{number_as_format, NumberFormat};
@@ -36,7 +49,7 @@ fn main() -> Result<(), slint::PlatformError> {
     });
 
     // Stats Calc
-    use statistics_util::{data_from_csv, one_dimensional_statistics};
+    use statistics_util::{data_from_csv, one_dimensional_statistics, data_to_vector};
 
     ui.on_data_from_csv(|| {
         return data_from_csv().into();
