@@ -1,0 +1,104 @@
+import { LineEdit, Button, TextEdit, GridBox, ComboBox } from "std-widgets.slint";
+
+enum GraphModes {
+    Graph_2D,
+    Graph_3D,
+}
+
+export component DataGraphCreator {
+
+    pure callback csv_with_columns(int) -> [string];
+
+    private property <GraphModes> graph_mode: GraphModes.Graph-3D;
+    private property <[string]> mode_names: ["2D", "3D"];
+    private property <percent> axis_proportion: 33%;
+
+    GridLayout {
+        Row {
+            ComboBox {
+                current-value: mode_names[1];
+                model: mode_names;
+                selected(value) => {
+                    if value == mode_names[0] {
+                        graph_mode = GraphModes.Graph-2D;
+                        axis_proportion = 50%;
+                    }
+                    else if value == mode_names[1] {
+                        graph_mode = GraphModes.Graph-3D;
+                        axis_proportion = 33%;
+                    }
+                }
+            }
+
+            graph_preview := Image {
+                rowspan: 5;
+                col: 1;
+                source: @image-url("resources/svg/Test.svg");
+            }
+        }
+
+        Row {
+            Text {text: "Title: "; vertical-alignment: center;}
+            LineEdit {}
+        }
+
+        Row {
+            Text {text: "X-Axis Label: "; vertical-alignment: center;}
+            LineEdit {}
+        }
+        
+        Row {
+            Text {text: "Y-Axis Label: "; vertical-alignment: center;}
+            LineEdit {}
+        }
+ 
+        Row { 
+            Text {text: "Z-Axis Label: "; vertical-alignment: center; visible: graph_mode == GraphModes.Graph-3D;}
+            LineEdit {visible: graph_mode == GraphModes.Graph-3D;}
+        }
+
+        Row {
+            Text {
+                text: "X Values:";
+                width: axis_proportion;
+            }
+            Text {
+                text: "Y Values:";
+                width: axis_proportion;
+            }
+            Text {
+                visible: graph_mode == GraphModes.Graph-3D;
+                text: "Z Values:";
+                width: axis_proportion;
+            }
+        }
+
+        Row {
+        
+            x-axis := TextEdit {
+                min-height: 100px;
+                width: 33%;
+            }
+
+            y-axis := TextEdit {
+                min-height: 100px;
+                width: 33%;
+            }
+
+            z-axis := TextEdit {
+                min-height: 100px;
+                width: 33%;
+            }
+        }
+
+        Row {
+            Button {
+                text: "From CSV";
+            }
+
+            Button {
+                text: "Create and Show Graph";
+            }
+        }
+    }
+}
