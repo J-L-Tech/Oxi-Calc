@@ -1,9 +1,12 @@
+use slint::{SharedString, VecModel};
+
 slint::include_modules!();
 
 mod statistics_util;
 mod unit_conversion_util;
 mod number_conversion_util;
 mod expression_util;
+mod graph_maker_util;
 
 fn main() -> Result<(), slint::PlatformError> {
     let ui = AppWindow::new()?;
@@ -62,6 +65,21 @@ fn main() -> Result<(), slint::PlatformError> {
             Err(err_msg) => err_msg.message
         }.into()
     });
+
+    // Graph Maker
+    use graph_maker_util::split_csv_by_column;
+    
+    ui.on_csv_with_columns(|column_count | {
+        if let Ok(count) = column_count.try_into() {
+            return slint::ModelRc::new(
+                VecModel::from(
+                    split_csv_by_column(count, &data_from_csv()).into_iter().map(Into::into).collect::<Vec<SharedString>>()
+                )
+            );//return split_csv_by_column(count, &data_from_csv());        
+        } else {
+            return slint::ModelRc::new( slint::VecModel::default());
+        }
+    });    
 
     ui.run()
 }

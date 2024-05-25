@@ -1,6 +1,6 @@
 use std::f64::consts::{E, PI, TAU};
 
-use math_utils_lib::{eval, export, parse, quick_eval, solve, ExportType, MathLibError, StepType, Value, Variable};
+use math_utils_lib::{eval, parse, /*export, quick_eval, solve, ExportType, StepType,*/ MathLibError, Value, Variable};
 
 pub fn calc_expr(raw_expr: &str) -> String {
     match parse_and_evaluate(raw_expr.into()) {
