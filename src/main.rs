@@ -7,9 +7,12 @@ mod unit_conversion_util;
 mod number_conversion_util;
 mod expression_util;
 mod graph_maker_util;
+mod file_util;
 
 fn main() -> Result<(), slint::PlatformError> {
     let ui = AppWindow::new()?;
+
+    use file_util::*;
 
     // Expression Calculator
 
@@ -52,7 +55,7 @@ fn main() -> Result<(), slint::PlatformError> {
     });
 
     // Stats Calc
-    use statistics_util::{data_from_csv, one_dimensional_statistics, data_to_vector};
+    use statistics_util::{one_dimensional_statistics, data_to_vector};
 
     ui.on_data_from_csv(|| {
         return data_from_csv().into();
@@ -67,7 +70,7 @@ fn main() -> Result<(), slint::PlatformError> {
     });
 
     // Graph Maker
-    use graph_maker_util::split_csv_by_column;
+    use graph_maker_util::make_graph;
     
     ui.on_csv_with_columns(|column_count | {
         if let Ok(count) = column_count.try_into() {
@@ -75,11 +78,18 @@ fn main() -> Result<(), slint::PlatformError> {
                 VecModel::from(
                     split_csv_by_column(count, &data_from_csv()).into_iter().map(Into::into).collect::<Vec<SharedString>>()
                 )
-            );//return split_csv_by_column(count, &data_from_csv());        
+            );        
         } else {
             return slint::ModelRc::new( slint::VecModel::default());
         }
-    });    
+    });
+
+    ui.on_make_graph(|graph_info| {
+        match make_graph(graph_info) {
+            Ok(_)   => {},
+            Err(e)  => {println!("Error Occured {}", e)},
+        }
+    }); 
 
     ui.run()
 }

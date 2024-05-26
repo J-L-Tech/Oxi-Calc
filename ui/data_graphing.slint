@@ -1,5 +1,19 @@
 import { LineEdit, Button, TextEdit, GridBox, ComboBox, HorizontalBox } from "std-widgets.slint";
 
+export struct GraphInfo {
+    title:          string,
+    
+    x-axis-label:   string,
+    y-axis-label:   string,
+    z-axis-label:   string,
+
+    x-data:         string,
+    y-data:         string,
+    z-data:         string,
+
+    is_2d:          bool,
+}
+
 enum GraphModes {
     Graph_2D,
     Graph_3D,
@@ -8,6 +22,7 @@ enum GraphModes {
 export component DataGraphCreator {
 
     pure callback csv_with_columns(int) -> [string];
+    pure callback make_graph(GraphInfo);
 
     private property <GraphModes> graph_mode: GraphModes.Graph-3D;
     private property <[string]> mode_names: ["2D", "3D"];
@@ -39,29 +54,29 @@ export component DataGraphCreator {
 
         Row {
             HorizontalBox {
-                title_name := Text {text: "Title: "; vertical-alignment: center;}
-                LineEdit {}
+                Text {text: "Title: "; vertical-alignment: center;}
+                title_name := LineEdit {}
             }
         }
 
         Row {
             HorizontalBox {
-                x_axis_name := Text {text: "X-Axis Label: "; vertical-alignment: center;}
-                LineEdit {}
+                Text {text: "X-Axis Label: "; vertical-alignment: center;}
+                x_axis_name := LineEdit {}
             }
         }
         
         Row {
             HorizontalBox {
-                y_axis_name := Text {text: "Y-Axis Label: "; vertical-alignment: center;}
-                LineEdit {}
+                Text {text: "Y-Axis Label: "; vertical-alignment: center;}
+                y_axis_name := LineEdit {}
             }
         }
  
         Row { 
             HorizontalBox {
-                z_axis_name := Text {text: "Z-Axis Label: "; vertical-alignment: center; visible: graph_mode == GraphModes.Graph-3D;}
-                LineEdit {visible: graph_mode == GraphModes.Graph-3D;}
+                Text {text: "Z-Axis Label: "; vertical-alignment: center; visible: graph_mode == GraphModes.Graph-3D;}
+                z_axis_name := LineEdit {visible: graph_mode == GraphModes.Graph-3D;}
             }
         }
 
@@ -115,6 +130,20 @@ export component DataGraphCreator {
 
             Button {
                 text: "Create and Show Graph";
+                clicked => {
+                    make_graph({
+                        title: title-name.text, 
+                        
+                        x-axis-label: x-axis-name.text,
+                        y-axis-label: y-axis-name.text,
+                        z-axis-label: z-axis-name.text,
+
+                        x-data: x-axis.text,
+                        y-data: y-axis.text,
+                        z-data: z-axis.text,
+                        is_2d: graph_mode == GraphModes.Graph-2D,
+                    });
+                }
             }
         }
     }

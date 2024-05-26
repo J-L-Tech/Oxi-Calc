@@ -10,6 +10,7 @@ build = "build.rs"
 [dependencies]
 math_utils_lib = "0.3.1"
 parse_int = "0.6.0"
+plotpy = "0.6.3"
 rand = "0.8.5"
 rfd = "0.14.1"
 slint = "1.5"

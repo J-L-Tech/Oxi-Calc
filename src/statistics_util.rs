@@ -1,5 +1,5 @@
 // Statistics
-use std::{cmp::Ordering, error::Error, fmt, fs};
+use std::{cmp::Ordering, error::Error, fmt};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct ErrorMessage {
@@ -18,18 +18,6 @@ impl fmt::Display for ErrorMessage {
     }
 }
 impl Error for ErrorMessage {}
-
-pub fn data_from_csv() -> String {
-    let mut result: String = "".to_string();
-    use rfd::FileDialog;
-
-    if let Some(file) = FileDialog::new().add_filter("Data File", &["csv"]).pick_file() {
-        if let Ok(contents) = fs::read_to_string(file) {
-            result = contents;
-        }
-    }
-    return result
-}
 
 pub fn data_to_vector(raw_data: &str) -> Vec<f64> {
     let mut result: Vec<f64> = Vec::new();

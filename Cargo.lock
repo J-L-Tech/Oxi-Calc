@@ -2483,6 +2483,7 @@ dependencies = [
  "jui",
  "math_utils_lib",
  "parse_int",
+ "plotpy",
  "rand",
  "rfd",
  "slint",
@@ -2881,6 +2882,12 @@ name = "pkg-config"
 version = "0.3.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d231b230927b5e4ad203db57bbcbee2802f6bce620b1e4a9024a07d94e2907ec"
+
+[[package]]
+name = "plotpy"
+version = "0.6.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a277e53342c34a26edcaf48e46f7b26be2b6648f295f9efc283596517bca2be6"
 
 [[package]]
 name = "png"

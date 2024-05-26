@@ -5,7 +5,7 @@ import { StatsCalc } from "stats_calc.slint";
 import { ExpressionCalculator } from "expression_calculator.slint";
 
 import "./resources/font/FiraCode-Medium.ttf";
-import { DataGraphCreator } from "data_graphing.slint";
+import { DataGraphCreator, GraphInfo } from "data_graphing.slint";
 export component AppWindow inherits Window {
     title: "Math Calc";
     min-height: 700px;
@@ -27,13 +27,15 @@ export component AppWindow inherits Window {
     pure callback one_dimensional_statistics(string) -> string;
 
     pure callback csv_with_columns(int) -> [string];
+    pure callback make_graph(GraphInfo);
+    
 
     TabWidget {
         Tab {
             title: "Calculator";
             ExpressionCalculator {
-                width: 100%;
-                height:100%;
+                width:  100%;
+                height: 100%;
                 calculate_expression(raw_string) => {
                     root.evaluate_expression(raw-string);
                 }
@@ -47,7 +49,7 @@ export component AppWindow inherits Window {
             title: "Number Converter";
 
             number_converter := NumberConverter {
-                width: 100%;
+                width:  100%;
                 height: 100%;
                 convert_to_bin(prefix, raw_string) => {
                     root.convert_to_bin(prefix, raw_string);
@@ -68,7 +70,7 @@ export component AppWindow inherits Window {
             title: "Unit Converter";
            
             unit_converter := UnitConverter {
-                width: 100%;
+                width:  100%;
                 height: 100%;
                 convert_units(left_type, left_value, right_type) => {
                     root.convert_units(left_type, left_value, right_type);
@@ -79,7 +81,7 @@ export component AppWindow inherits Window {
         Tab {
             title: "Statistics";
             stats_calc := StatsCalc {
-                width: 100%;
+                width:  100%;
                 height: 100%;
                 data_from_csv => {
                     root.data_from_csv();
@@ -94,10 +96,13 @@ export component AppWindow inherits Window {
         Tab {
             title: "Graphing TODO";
             DataGraphCreator {
-                width: 100%;
+                width:  100%;
                 height: 100%;
                 csv_with_columns(num) => {
                     root.csv_with_columns(num);
+                }
+                make_graph(graph_info) => {
+                    root.make_graph(graph_info);
                 }
             }
         }
