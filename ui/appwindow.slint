@@ -9,7 +9,10 @@ import { DataGraphCreator, GraphInfo } from "data_graphing.slint";
 export component AppWindow inherits Window {
     title: "Math Calc";
     min-height: 700px;
-    min-width: 700px;
+    min-width: 900px;
+
+    padding: 10px;
+    default-font-size: 12pt;
 
     default-font-family: "Fira Code";
 
@@ -94,7 +97,7 @@ export component AppWindow inherits Window {
         }
 
         Tab {
-            title: "Graphing TODO";
+            title: "Graphing";
             DataGraphCreator {
                 width:  100%;
                 height: 100%;

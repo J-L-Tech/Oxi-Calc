@@ -9,6 +9,10 @@ export component ExpressionCalculator {
 
     VerticalBox { 
         HorizontalBox {
+            Text {
+                text: "Infix: ";
+                vertical-alignment: center;
+            }
             expression_space :=  LineEdit {
                 placeholder-text: "Type A Math Expression Here";
             }

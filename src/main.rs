@@ -8,10 +8,10 @@ mod number_conversion_util;
 mod expression_util;
 mod graph_maker_util;
 mod file_util;
+mod func_expr_util;
 
 fn main() -> Result<(), slint::PlatformError> {
     let ui = AppWindow::new()?;
-
     use file_util::*;
 
     // Expression Calculator
