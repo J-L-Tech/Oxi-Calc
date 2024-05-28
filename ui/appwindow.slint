@@ -16,7 +16,8 @@ export component AppWindow inherits Window {
 
     default-font-family: "Fira Code";
 
-    pure callback evaluate_expression(string) -> string;
+    pure callback evaluate_infix_expression(string) -> string;
+    pure callback evaluate_prefix_expression(string) -> string;
     pure callback append_history(string, string, string) -> string;
 
     pure callback convert_to_bin(string, string) -> string;
@@ -39,8 +40,11 @@ export component AppWindow inherits Window {
             ExpressionCalculator {
                 width:  100%;
                 height: 100%;
-                calculate_expression(raw_string) => {
-                    root.evaluate_expression(raw-string);
+                calculate_infix_expression(raw_string) => {
+                    root.evaluate_infix_expression(raw_string);
+                }
+                calculate_prefix_expression(raw_string) => {
+                    root.evaluate_prefix_expression(raw_string);
                 }
                 append_history(previous_history, raw_expr, raw_ans) => {
                     root.append_history(previous_history, raw_expr, raw_ans);

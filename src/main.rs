@@ -17,10 +17,15 @@ fn main() -> Result<(), slint::PlatformError> {
     // Expression Calculator
 
     use expression_util::calc_expr;
+    use func_expr_util::evaluate_prefix_expression;
 
-    ui.on_evaluate_expression(|raw_string| {
+    ui.on_evaluate_infix_expression(|raw_string| {
         return calc_expr(raw_string.as_str()).into();
     }); 
+
+    ui.on_evaluate_prefix_expression(|raw_string| {
+        return evaluate_prefix_expression(raw_string.as_str());
+    });
 
     ui.on_append_history(|previous_history, raw_expr, raw_ans| { 
         let mut new_history = previous_history.to_string();

@@ -70,6 +70,16 @@ pub enum  Value {
     Error {msg: String}
 }
 
+impl From<Value> for SharedString {
+    fn from(value: Value) -> Self {
+        match value {
+            Value::IntV { i_v } => i_v.to_string().into(),
+            Value::FloatV { f_v } => f_v.to_string().into(),
+            Value::Error { msg } => msg.into(),
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ValuePair {
     IntInt {a: i64, b: i64},
@@ -131,3 +141,5 @@ impl From<&str> for ParseError {
 }
 
 use std::{error::Error, fmt};
+
+use slint::SharedString;

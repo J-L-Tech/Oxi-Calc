@@ -257,10 +257,28 @@ fn gcd(a: i64, b: i64) -> i64 {
 #[cfg(test)]
 mod interp_tests {
     use super::*;
+    use Expr::*;
+
+    // macro_rules! interp_expr_eq_test {
+    //     ($test_name : ident, $key : expr, $raw_expr : expr ) => {
+    //         #[test]
+    //         fn $test_name() {
+    //             assert_eq!($key, interp_expr(&$raw_expr));
+    //         }
+    //     };
+    // }
+
+    // interp_expr_eq_test!(
+    //     float_add, 
+    //     Value::FloatV { f_v: 4.0 },
+    //     BuiltinFn { 
+    //         name: Builtin::Add,
+    //         args: vec![Float { f: 2.0 }, Float { f: 2.0 }]
+    //     }
+    // );
 
     #[test]
     fn basic_arithmetic_builtins() {
-        use Expr::{Integer, Float, BuiltinFn};
         assert_eq!(
             Value::FloatV { f_v: 4.0 }, 
             interp_expr(&BuiltinFn { 
@@ -344,8 +362,6 @@ mod interp_tests {
 
     #[test]
     fn floating_point_builtins() {
-        use Expr::{Integer, Float, BuiltinFn};
-
         assert_eq!(
             Value::IntV { i_v: 2 }, 
             interp_expr(&BuiltinFn { 
@@ -397,7 +413,6 @@ mod interp_tests {
 
     #[test]
     fn trig_bulitins() {
-        use Expr::{Float, BuiltinFn};
         assert_eq!(
             Value::FloatV { f_v: f64::sin(0.33) as f64 }, 
             interp_expr(&BuiltinFn { 
@@ -443,7 +458,6 @@ mod interp_tests {
 
     #[test]
     fn hyperbolic_bulitins() {
-        use Expr::{Float, BuiltinFn};
         use std::f64::consts::E;
         assert_eq!(
             Value::FloatV { f_v: f64::sinh(1.0) as f64 }, 
@@ -490,7 +504,6 @@ mod interp_tests {
 
     #[test]
     fn log_bulitins() {
-        use Expr::{Float, BuiltinFn};
         assert_eq!(
             Value::FloatV { f_v: f64::ln(0.33) as f64 }, 
             interp_expr(&BuiltinFn { 
@@ -515,7 +528,6 @@ mod interp_tests {
 
     #[test]
     fn pow_int_int() {
-        use Expr::{BuiltinFn, Integer};
         assert_eq!(
             Value::IntV{i_v: 8}, 
             interp_expr(&BuiltinFn {
@@ -526,7 +538,6 @@ mod interp_tests {
 
     #[test]
     fn pow_int_float() {
-        use Expr::{BuiltinFn, Integer, Float};
         assert_eq!(
             Value::FloatV { f_v: 8.0 }, 
             interp_expr(&BuiltinFn {
@@ -537,7 +548,6 @@ mod interp_tests {
 
     #[test]
     fn pow_float_int() {
-        use Expr::{BuiltinFn, Integer, Float};
         assert_eq!(
             Value::FloatV { f_v: 8.0 }, 
             interp_expr(&BuiltinFn {
@@ -548,7 +558,6 @@ mod interp_tests {
 
     #[test]
     fn pow_float_float() {
-        use Expr::{BuiltinFn, Float};
         assert_eq!(
             Value::FloatV{f_v: 8.0}, 
             interp_expr(&BuiltinFn {

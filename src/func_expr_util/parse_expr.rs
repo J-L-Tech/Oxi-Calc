@@ -90,16 +90,12 @@ fn args_to_vec(args: &str) -> Result<Vec<Expr>, ParseError> {
                     current_arg.push(c);
                 },
                 ')' => {
-                    if let Some(top) = delim_vec.last() {
-                        if *top == '(' {
-                            delim_vec.pop();
-                        }
-                        else {
-                            return Err("Delimiter Mismatch".into());    
-                        }
+                    if delim_vec.is_empty() {
+                        return Err("Delimiter Mismatch".into()); 
                     }
                     else {
-                        return Err("Delimiter Mismatch".into());
+                        delim_vec.pop();
+                        current_arg.push(c);
                     }
                 },
                 ',' => {
@@ -164,6 +160,14 @@ mod parse_tests {
         assert_eq!(
             Ok(BuiltinFn { name: Builtin::GCD, args: (vec![Integer { i: 12 }, Integer { i: 4 }]) }),
             parse_expr("gcd(12, 4)")
+        );
+    }
+
+    #[test]
+    fn function_parsing_func_arg() {
+        assert_eq!(
+            Ok(BuiltinFn { name: Builtin::Add, args: (vec![Integer { i: 2 }, BuiltinFn {name: Builtin::Add, args: vec![ Integer { i: 2 }, Integer{i: 2}]}]) }),
+            parse_expr("add(2, add(2,2))")
         );
     }
 

@@ -1,34 +1,64 @@
 
 import { LineEdit, TextEdit, HorizontalBox, VerticalBox, Button, Switch } from "std-widgets.slint";
-export component ExpressionCalculator {
+
+component ExpressionLine {
+
+    in property <string> start_label;
     pure callback calculate_expression(string) -> string;
+    callback append_to_history(string, string);
+
+    HorizontalBox {
+        Text {
+            text: start_label;
+            vertical-alignment: center;
+        }
+        expression_space :=  LineEdit {
+            placeholder-text: "Type A Math Expression Here";
+        }
+        Text {
+            vertical-alignment: center;
+            text: "=";
+        }
+        answer_space := LineEdit {
+            read-only: true;
+        }
+        Button {
+            text: "✔";
+            clicked => {
+                answer-space.text = calculate_expression(expression-space.text);
+                append_to_history(expression-space.text, answer-space.text);
+            }
+        }
+    }
+}
+
+export component ExpressionCalculator {
+    pure callback calculate_infix_expression(string) -> string;
+    pure callback calculate_prefix_expression(string) -> string;
+    
     pure callback append_history(string, string, string) -> string;
     pure callback clear_history();
 
     private property <bool> history_hidden: false;
 
     VerticalBox { 
-        HorizontalBox {
-            Text {
-                text: "Infix: ";
-                vertical-alignment: center;
+        ExpressionLine {
+            start_label: "Infix: ";
+            calculate_expression(expr) => {
+                root.calculate_infix_expression(expr);
             }
-            expression_space :=  LineEdit {
-                placeholder-text: "Type A Math Expression Here";
+            append_to_history(expr, ans) => {
+                calc-history.text = root.append_history(calc-history.text, expr, ans);
             }
-            Text {
-                vertical-alignment: center;
-                text: "=";
+        }
+
+        ExpressionLine {
+            start_label: "Prefix: ";
+            calculate_expression(expr) => {
+                root.calculate_prefix_expression(expr);
             }
-            answer_space := LineEdit {
-                read-only: true;
-            }
-            Button {
-                text: "✔";
-                clicked => {
-                    answer-space.text = calculate_expression(expression-space.text);
-                    calc-history.text = append_history(calc-history.text, expression-space.text, answer-space.text);
-                }
+            append_to_history(expr, ans) => {
+                calc-history.text = root.append_history(calc-history.text, expr, ans);
             }
         }
 
