@@ -14,6 +14,10 @@ component ExpressionLine {
         }
         expression_space :=  LineEdit {
             placeholder-text: "Type A Math Expression Here";
+            accepted => {
+                answer-space.text = calculate_expression(expression-space.text);
+                append_to_history(expression-space.text, answer-space.text);
+            }
         }
         Text {
             vertical-alignment: center;
@@ -69,6 +73,13 @@ export component ExpressionCalculator {
                     font-size: 24px;
                 }
                 Button {
+                    text: "Copy History";
+                    clicked => {
+                        calc-history.select-all();
+                        calc-history.copy();
+                    }
+                }
+                Button {
                     text: "Clear History";
                     clicked => {
                         clear_history();
@@ -95,6 +106,7 @@ export component ExpressionCalculator {
             calc_history := TextEdit {
                 min-height: 100px;
                 visible: !history_hidden;
+                read-only: true;
             }
         }
     }

@@ -1,9 +1,9 @@
 #[derive(Clone, Debug, PartialEq)]
 pub enum Expr {
-    Integer {i: i64},
-    Float {f: f64},
+    Integer { i: i64 },
+    Float { f: f64 },
 
-    BuiltinFn {name: Builtin, args: Vec<Expr>},
+    BuiltinFn { name: Builtin, args: Vec<Expr> },
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -23,6 +23,7 @@ pub enum Builtin {
     GCD,
     Choose,
     Permutation,
+    Factorial,
 
     // Decimal Point Manipulatoin
     Round,
@@ -60,14 +61,13 @@ pub enum Builtin {
     // RNG
     Rand,
     RandInt,
-
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub enum  Value {
-    IntV {i_v: i64},
-    FloatV {f_v: f64},
-    Error {msg: String}
+pub enum Value {
+    IntV { i_v: i64 },
+    FloatV { f_v: f64 },
+    Error { msg: String },
 }
 
 impl From<Value> for SharedString {
@@ -82,10 +82,10 @@ impl From<Value> for SharedString {
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ValuePair {
-    IntInt {a: i64, b: i64},
-    FloatInt {a: f64, b: i64},
-    IntFloat {a: i64, b: f64},
-    FloatFloat {a: f64, b: f64},
+    IntInt { a: i64, b: i64 },
+    FloatInt { a: f64, b: i64 },
+    IntFloat { a: i64, b: f64 },
+    FloatFloat { a: f64, b: f64 },
 }
 
 pub fn pair_up(a_v: Value, b_v: Value) -> ValuePair {
@@ -95,18 +95,18 @@ pub fn pair_up(a_v: Value, b_v: Value) -> ValuePair {
             match b_v {
                 Value::IntV { i_v } => ValuePair::IntInt { a: a_iv, b: i_v },
                 Value::FloatV { f_v } => ValuePair::IntFloat { a: a_iv, b: f_v },
-                _ => panic!()
+                _ => panic!(),
             }
-        },
+        }
         Value::FloatV { f_v } => {
             let a_fv: f64 = f_v;
             match b_v {
                 Value::IntV { i_v } => ValuePair::FloatInt { a: a_fv, b: i_v },
                 Value::FloatV { f_v } => ValuePair::FloatFloat { a: a_fv, b: f_v },
-                _ => panic!()
+                _ => panic!(),
             }
-        },
-        _ => panic!()
+        }
+        _ => panic!(),
     }
 }
 
@@ -117,7 +117,9 @@ pub struct ParseError {
 
 impl ParseError {
     fn new(message: &str) -> ParseError {
-        return ParseError {message: message.to_string()};
+        return ParseError {
+            message: message.to_string(),
+        };
     }
 }
 

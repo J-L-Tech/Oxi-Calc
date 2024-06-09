@@ -8,7 +8,9 @@ pub struct ErrorMessage {
 
 impl ErrorMessage {
     fn new(message: &str) -> ErrorMessage {
-        return ErrorMessage {message: message.to_string()};
+        return ErrorMessage {
+            message: message.to_string(),
+        };
     }
 }
 
@@ -44,12 +46,12 @@ pub fn one_dimensional_statistics(data: &mut Vec<f64>) -> Result<String, ErrorMe
     let variance: f64 = data
         .into_iter()
         .map(|d| (*d - mean).powi(2))
-        .fold(0.0, |acc, d| acc + d) / (data.len() as f64 - 1.0);
+        .fold(0.0, |acc, d| acc + d)
+        / (data.len() as f64 - 1.0);
     let std_dev: f64 = variance.sqrt();
 
     return Ok(format!(
-        
-"Sum:           {}
+        "Sum:           {}
 Element Count: {}
 Mean:          {}
 Median:        {}
@@ -57,21 +59,28 @@ Mode:          {}
 Max:           {}
 Min:           {}
 Variance       {}
-Std Deviation: {}", 
-
-        sum, data.len(), mean, median, mode, max, min, variance, std_dev));
+Std Deviation: {}",
+        sum,
+        data.len(),
+        mean,
+        median,
+        mode,
+        max,
+        min,
+        variance,
+        std_dev
+    ));
 }
 
 /// Assumes sorted data
 fn median(data: &Vec<f64>) -> Result<f64, ErrorMessage> {
     // Even: Mean Average of 2 Middle Values
     // [0 1 2 3]
-    if data.len() % 2 == 0 { 
+    if data.len() % 2 == 0 {
         if data.len() == 0 {
             return Err(ErrorMessage::new("No Data"));
-        }
-        else {
-            return Ok((data[data.len()/2 - 1] + data[data.len()/2]) / 2.0);
+        } else {
+            return Ok((data[data.len() / 2 - 1] + data[data.len() / 2]) / 2.0);
         }
     }
     // Odd: Middle Value
@@ -107,14 +116,12 @@ fn mode(data: &Vec<f64>) -> Result<f64, ErrorMessage> {
             }
             // Previous Non Mode Number Counted, and Smaller than Mode
             else {
-                    current_value = *number;
-                    count = max_count;
+                current_value = *number;
+                count = max_count;
             }
-
         }
         return Ok(*mode);
-    }
-    else {
+    } else {
         return Err(ErrorMessage::new("No Data"));
     }
 }
@@ -130,26 +137,47 @@ mod statistics_tests {
 
     #[test]
     fn mode_switches() {
-        assert_eq!(Ok(0.0), mode(&vec![1.1, 1.1, 1.1, 1.1, 0.0, 0.0, 0.0, 0.0, 0.0]));
+        assert_eq!(
+            Ok(0.0),
+            mode(&vec![1.1, 1.1, 1.1, 1.1, 0.0, 0.0, 0.0, 0.0, 0.0])
+        );
     }
 
     #[test]
     fn mode_does_not_switch() {
-        assert_eq!(Ok(0.0), mode(&vec![0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 1.1, 1.1, 1.1,]));
+        assert_eq!(
+            Ok(0.0),
+            mode(&vec![0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 1.1, 1.1, 1.1,])
+        );
     }
 
     #[test]
     fn mode_reset_count_retain() {
-        assert_eq!(Ok(0.0), mode(&vec![0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 1.1, 1.1, 1.1, 2.2, 2.2, 2.2, 2.2, 2.2]));
+        assert_eq!(
+            Ok(0.0),
+            mode(&vec![
+                0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 1.1, 1.1, 1.1, 2.2, 2.2, 2.2, 2.2, 2.2
+            ])
+        );
     }
 
     #[test]
     fn mode_reset_count_change() {
-        assert_eq!(Ok(2.2), mode(&vec![0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 1.1, 1.1, 1.1, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2]));
+        assert_eq!(
+            Ok(2.2),
+            mode(&vec![
+                0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 1.1, 1.1, 1.1, 2.2, 2.2, 2.2, 2.2, 2.2, 2.2
+            ])
+        );
     }
 
     #[test]
     fn mode_general_example() {
-        assert_eq!(Ok(15.0), mode(&vec![3.0, 3.0, 6.0, 9.0, 15.0, 15.0, 15.0, 27.0, 27.0, 37.0, 48.0]));
+        assert_eq!(
+            Ok(15.0),
+            mode(&vec![
+                3.0, 3.0, 6.0, 9.0, 15.0, 15.0, 15.0, 27.0, 27.0, 37.0, 48.0
+            ])
+        );
     }
 }

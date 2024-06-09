@@ -7,7 +7,18 @@ export component NumberConverter {
     pure callback convert_to_dec(string, string) -> string;
     pure callback convert_to_hex(string, string) -> string;
 
+    // pure callback convert_to_dec_f(string, string) -> string;
+    // pure callback convert_to_single_f(string, string) -> string;
+    // pure callback convert_to_double_f(string, string) -> string;
+
     GridBox {
+        // Row {
+        //     Text {
+        //         text: "Integer";
+        //         font-size: 14pt;
+        //     }
+        // }
+
         Row {
             Text {
                 text: "Hexadecimal";
@@ -103,7 +114,98 @@ export component NumberConverter {
                 }
             }
         }
-        
+
+        // Row {
+        //     Text {
+        //         text: "Floating Point";
+        //         font-size: 14pt;
+        //     }
+        // }        
+
+        // Row {
+        //     Text {
+        //         text: "Decimal: ";
+        //         vertical-alignment: center;
+        //     }
+        //     decimal_f := LineEdit {
+        //         input-type: InputType.decimal;
+        //         edited => {
+        //             if self.text == "" {
+        //                 single-f.text = "";
+        //                 double-f.text = "";                        
+        //             }
+        //             else {
+        //                 decimal-f.text = ;
+        //                 single-f.text = ;
+        //                 double-f.text = ;
+        //             }
+        //         }
+        //     }
+        // }
+
+        // Row {
+        //     Text {
+        //         text: "Single Precision: ";
+        //         vertical-alignment: center;
+        //     }
+        //     single-f := LineEdit {
+        //         input-type: InputType.number;
+        //         edited => {
+        //             if self.text == "" {
+        //                 single-f.text = "";
+        //                 double-f.text = "";                        
+        //             }
+        //             else {
+        //                 decimal-f.text = ;
+        //                 single-f.text = ;
+        //                 double-f.text = ;
+        //             }
+        //         }
+        //     }
+        // }
+
+        // Row {
+        //     Text {
+        //         text: "Double Precision: ";
+        //         vertical-alignment: center;
+        //     }
+        //     double-f := LineEdit {
+        //         input-type: InputType.number;
+        //         edited => {
+        //             if self.text == "" {
+        //                 single-f.text = "";
+        //                 double-f.text = "";                        
+        //             }
+        //             else {
+        //                 decimal-f.text = ;
+        //                 single-f.text = ;
+        //                 double-f.text = ;
+        //             }
+        //         }
+        //     }
+        // }
+
+        // Row {
+        //     Text {
+        //         text: "Double Precision: ";
+        //         vertical-alignment: center;
+        //     }
+        //     double := LineEdit {
+        //         input-type: InputType.number;
+        //         edited => {
+        //             if self.text == "" {
+        //                 single-f.text = "";
+        //                 double-f.text = "";                        
+        //             }
+        //             else {
+        //                 decimal-f.text = ;
+        //                 single-f.text = ;
+        //                 double-f.text = ;
+        //             }
+        //         }
+        //     }
+        // }
+
         // This is dumb
         Rectangle {
             height: 95%;
