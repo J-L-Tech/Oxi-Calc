@@ -55,6 +55,7 @@ fn identifier_to_builtin(identifier: &str) -> Result<Builtin, ParseError> {
         "mult" | "*" => Ok(Builtin::Multiply),
         "div" | "/" => Ok(Builtin::Divide),
         "mod" | "%" => Ok(Builtin::Modulus),
+        "sqrt" => Ok(Builtin::Sqrt),
         _ => Err("No Matching Builtin Function".into()),
     }
 }
@@ -135,6 +136,17 @@ fn parse_fn(in_string: &str) -> Result<Expr, ParseError> {
 mod parse_tests {
     use super::*;
     use Expr::*;
+
+    #[test]
+    fn sqrt() {
+        assert_eq!(
+            Ok(BuiltinFn {
+                name: Builtin::Sqrt,
+                args: vec![Integer { i: 4 }]
+            }),
+            parse_expr("sqrt(4)")
+        );
+    }
 
     #[test]
     fn function_parsing_0_arg() {

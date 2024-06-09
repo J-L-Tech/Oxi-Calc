@@ -237,6 +237,19 @@ pub fn interp_expr(expr: &Expr) -> Value {
                     factorial_value(interp_expr(&args[0]))
                 }
             }
+            Builtin::Sqrt => {
+                if args.len() != 1 {
+                    return Value::Error {
+                        msg: "Invalid Number of Args".to_string(),
+                    };
+                } else {
+                    match interp_expr(&args[0]) {
+                        Value::IntV { i_v } => Value::FloatV{ f_v: (i_v as f64).sqrt()},
+                        Value::FloatV { f_v } => Value::FloatV { f_v: f_v.sqrt()},
+                        Value::Error { msg } => Value::Error { msg: msg },
+                    }
+                }
+            },
         },
     }
 }
@@ -316,24 +329,6 @@ fn gcd(a: i64, b: i64) -> i64 {
 mod interp_tests {
     use super::*;
     use Expr::*;
-
-    // macro_rules! interp_expr_eq_test {
-    //     ($test_name : ident, $key : expr, $raw_expr : expr ) => {
-    //         #[test]
-    //         fn $test_name() {
-    //             assert_eq!($key, interp_expr(&$raw_expr));
-    //         }
-    //     };
-    // }
-
-    // interp_expr_eq_test!(
-    //     float_add,
-    //     Value::FloatV { f_v: 4.0 },
-    //     BuiltinFn {
-    //         name: Builtin::Add,
-    //         args: vec![Float { f: 2.0 }, Float { f: 2.0 }]
-    //     }
-    // );
 
     #[test]
     fn basic_arithmetic_builtins() {
@@ -706,6 +701,28 @@ mod interp_tests {
             interp_expr(&BuiltinFn {
                 name: Builtin::Pow,
                 args: vec![Float { f: 2.0 }, Float { f: 3.0 }]
+            })
+        );
+    }
+
+    #[test]
+    fn sqrt_int_int() {
+        assert_eq!(
+            Value::FloatV { f_v: 2.0 },
+            interp_expr(&BuiltinFn {
+                name: Builtin::Sqrt,
+                args: vec![Integer { i: 4 }]
+            })
+        );
+    }
+
+    #[test]
+    fn sqrt_float() {
+        assert_eq!(
+            Value::FloatV { f_v: 2.0 },
+            interp_expr(&BuiltinFn {
+                name: Builtin::Sqrt,
+                args: vec![Float { f: 4.0 }]
             })
         );
     }

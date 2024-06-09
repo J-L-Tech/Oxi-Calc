@@ -6,11 +6,10 @@ import { ExpressionCalculator } from "expression_calculator.slint";
 
 import "./resources/font/FiraCode-Medium.ttf";
 import { DataGraphCreator, GraphInfo } from "data_graphing.slint";
+
 export component AppWindow inherits Window {
     title: "Math Calc";
-    min-height: 700px;
-    min-width: 900px;
-
+    icon: @image-url("resources/math-calc-icon.png");
     padding: 10px;
     default-font-size: 12pt;
 
@@ -24,10 +23,6 @@ export component AppWindow inherits Window {
     pure callback convert_to_oct(string, string) -> string;
     pure callback convert_to_dec(string, string) -> string;
     pure callback convert_to_hex(string, string) -> string;
-
-    // pure callback convert_to_dec_f(string) -> string;
-    // pure callback convert_to_single_f(string, string) -> string;
-    // pure callback convert_to_double_f(string, string) -> string;
 
     pure callback convert_units(string, string, string) -> string;
 

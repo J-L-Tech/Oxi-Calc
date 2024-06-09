@@ -53,6 +53,7 @@ pub enum Builtin {
 
     // Exponentiation
     Pow,
+    Sqrt,
 
     // Selection
     Max,
